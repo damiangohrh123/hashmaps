@@ -31,34 +31,13 @@ class HashMap{
     // Calculate hashcode
     let hashCode = this.hash(key);
 
-    // Check if the key already exists.
-    const nodeExists = this.bucket[hashCode].find(key);
+    // Get the node (Check if it exists)
+    const node = this.get(key);
 
     // If it exists, rewrite the value. Else, apend a new node. (Collision handling)
-    nodeExists ? nodeExists.value = value : this.bucket[hashCode].append(key, value);
+    node ? node.value = value : this.bucket[hashCode].append(key, value);
 
     this.growBucket();
-  }
-
-  growBucket(){
-    let loadFactor = 0.75;
-    let filledIndexes = this.bucket.reduce((count, node) => (node.head !== null ? count + 1 : count), 0);
-
-    if (filledIndexes / this.bucket.length >= loadFactor) {
-      // Save existing nodes to arrayOfExistingNodes
-      for (const node of this.bucket) {
-        if (node.head !== null){
-          this.arrayOfExistingNodes.push(node.head);
-        }
-      }
-
-      // Create a new bucket double in size. Then create linked lists.
-      this.bucket = new Array(this.bucket.length * 2);
-      this.createLists();
-      
-      // Repopulate the new bucket
-      this.arrayOfExistingNodes.forEach(node => this.set(node.key, node.value));
-    }
   }
 
   get(key) {
@@ -66,7 +45,10 @@ class HashMap{
     let hashCode = this.hash(key);
 
     // Check if node exits
-    
+    const node = this.bucket[hashCode].find(key);
+
+    // If node exists, return the value, else return null
+    return node ? node.value : null
   }
 
   has(key) {
@@ -95,6 +77,27 @@ class HashMap{
 
   entries() {
 
+  }
+
+  growBucket(){
+    let loadFactor = 0.75;
+    let filledIndexes = this.bucket.reduce((count, node) => (node.head !== null ? count + 1 : count), 0);
+
+    if (filledIndexes / this.bucket.length >= loadFactor) {
+      // Save existing nodes to arrayOfExistingNodes
+      for (const node of this.bucket) {
+        if (node.head !== null){
+          this.arrayOfExistingNodes.push(node.head);
+        }
+      }
+
+      // Create a new bucket double in size. Then create linked lists.
+      this.bucket = new Array(this.bucket.length * 2);
+      this.createLists();
+      
+      // Repopulate the new bucket
+      this.arrayOfExistingNodes.forEach(node => this.set(node.key, node.value));
+    }
   }
 }
 
