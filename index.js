@@ -28,7 +28,7 @@ class HashMap{
   }
 
   set(key, value) {
-    let hashCode = this.hash(key);
+    const hashCode = this.hash(key);
 
     // Get the node (Check if it exists in bucket)
     const node = this.get(key);
@@ -40,7 +40,7 @@ class HashMap{
   }
 
   get(key) {
-    let hashCode = this.hash(key);
+    const hashCode = this.hash(key);
 
     // Check if node exits in bucket
     const node = this.bucket[hashCode].find(key);
@@ -50,7 +50,7 @@ class HashMap{
   }
 
   has(key) {
-    let hashCode = this.hash(key);
+    const hashCode = this.hash(key);
 
     // Check if node exits in bucket
     const node = this.bucket[hashCode].find(key);
@@ -60,7 +60,16 @@ class HashMap{
   }
 
   remove(key) {
+    const hashCode = this.hash(key);
 
+    // Get the node (Check if it exists in bucket)
+    const node = this.get(key);
+
+    if (node) {
+
+    } else {
+      return false;
+    }
   }
 
   length() {
@@ -121,7 +130,7 @@ class linkedList {
   append(key, value) {
     const newNode = new Node(key, value);
 
-    // If head is null, create newNode as head
+    // If list is empty, create newNode as head
     if (!this.head) {
       this.head = newNode;
       return;
@@ -135,16 +144,40 @@ class linkedList {
     current.next = newNode;
   }
 
-  // Find the node using the key's name, then return node
-  find(keyName) {
+  find(key) {
     let current = this.head;
     while (current) {
-      if (current.key === keyName) {
+      if (current.key === key) {
         return current;
       }
       current = current.next;
     }
     return null;
+  }
+
+  remove(key) {
+    // If list is empty, return
+    if (!this.head) {
+      return;
+    }
+
+    // If the node to be deleted is the head node
+    if (this.head.key === key) {
+      this.head = this.head.next;
+      return
+    }
+
+    // Traverse the list to find the node before the one to be deleted
+    let prev = this.head;
+    let current = this.head.next;
+    while (current !== null) {
+      if (current.key === key) {
+        prev.next = current.next;
+        return
+      }
+      prev = current;
+      current = current.next;
+    }
   }
 }
 
