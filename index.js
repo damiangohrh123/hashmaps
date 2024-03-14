@@ -28,10 +28,9 @@ class HashMap{
   }
 
   set(key, value) {
-    // Calculate hashcode
     let hashCode = this.hash(key);
 
-    // Get the node (Check if it exists)
+    // Get the node (Check if it exists in bucket)
     const node = this.get(key);
 
     // If it exists, rewrite the value. Else, apend a new node. (Collision handling)
@@ -41,10 +40,9 @@ class HashMap{
   }
 
   get(key) {
-    // Calculate hashcode
     let hashCode = this.hash(key);
 
-    // Check if node exits
+    // Check if node exits in bucket
     const node = this.bucket[hashCode].find(key);
 
     // If node exists, return the value, else return null
@@ -52,7 +50,13 @@ class HashMap{
   }
 
   has(key) {
+    let hashCode = this.hash(key);
 
+    // Check if node exits in bucket
+    const node = this.bucket[hashCode].find(key);
+
+    // If node exists, return true, else return false
+    return node ? true : false;
   }
 
   remove(key) {
@@ -147,12 +151,16 @@ class linkedList {
 const hashMap = new HashMap();
 
 const keyValuePaires = [
-  {key: "Carlos", value: "old"},
-  {key: "Carlas", value: "old"},
-  {key: "Dexter", value: "old"},
-  {key: "Sam", value: "old"}
+  {key: "Carlos", value: "CarlosV"},
+  {key: "Carlas", value: "CarlasV"},
+  {key: "Dexter", value: "DexterV"},
+  {key: "Sam", value: "SamV"}
 ];
 
 keyValuePaires.forEach(element => hashMap.set(element.key, element.value));
+
+/** Tests */
+console.log(hashMap.get("Carlos"));
+console.log(hashMap.has("Sam"));
 
 console.log(hashMap);
